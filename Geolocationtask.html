@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        #mymap {
+            width: 600px;
+            height: 600px;
+        }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB90FxtYG_ybAYXGkz0ybkmkboE2nEbezI"></script>
+    <script>
+        window.addEventListener('load', function () {
+            mymap = document.getElementById("mymap");
+
+        });//enf of load
+
+        //browser availability
+        function currentlocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sucess, errorhandler);
+            } else {
+                mymap.innerHTML = "<h2>update your browser..!</h2>"
+            }
+        }
+
+        //allow and deny
+        function sucess(position) {
+            lat = position.coords.latitude;
+            lng = position.coords.longitude;
+            mylocation = new google.maps.LatLng(lat, lng);
+            myspecs = { center: mylocation, zoom: 10 };
+            myimg = new Image();
+            myimg.src = new google.maps.Map(mymap, myspecs);
+
+        }
+        function errorhandler(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    mymap.innerText = 'PERMISSION_DENIED';
+                    break;
+                case error.TIMEOUT:
+                    mymap.innerText = 'TIMEOUT';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    mymap.innerText = 'POSITION_UNAVAILABLE';
+                    break;
+                case error.UNKOWN_ERROR:
+                    mymap.innerText = 'UNKOWN_ERROR';
+                    break;
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="button"  value="get current location" onclick="currentlocation();"/>
+    <div id="mymap">
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+       #outer{
+           width:65%;
+           height:30%;
+           border: 5px solid black;
+           margin:5px auto;
+           background : -webkit-linear-gradient(top,white,yellow);
+
+       } 
+       img{
+            width:80px;
+            height:80px;
+            margin: 10px;
+            
+        }
+        #imag{
+            width: 800px;
+            height:150px;
+            border:2px solid red;
+            padding: 5px;
+            margin :50px auto;
+            background : -webkit-linear-gradient(top,white,orange);
+        }
+        
+        #left{
+            width: 800px;
+            height:150px;
+            margin:50px auto;
+            padding: 5px;
+            border: 2px solid black;
+            background : -webkit-linear-gradient(top,white,orange);
+            
+        }
+
+span{
+    display:none;
+    text-align: center;
+    font-size: 50px;
+    padding: 5px;
+    margin: 5px auto;
+}
+img:hover{
+   -webkit-transform: rotate(360deg);
+   -webkit-transition: all 2s;
+}
+        </style>
+         <script>
+                window.addEventListener('load', doitfirst);
+                function doitfirst() {
+                    counter=0;
+                    myspan = document.getElementsByTagName("span")[0];
+                    allimages = document.querySelectorAll(".iti");// array
+                    for (var i = 0; i < allimages.length; i++) {
+                        allimages[i].addEventListener('dragstart', startdrag);
+                        allimages[i].addEventListener('dragend', enddrag);
+                       
+                    }
+                    left = document.getElementById('left');
+                    left.addEventListener('dragenter', enterdrag);
+                    left.addEventListener('drop', dropped);
+                    left.addEventListener('dragover', overdrag);
+        
+                    right = document.getElementById('imag');
+                    right.addEventListener('dragleave', leavedrag);
+                }
+                function startdrag(e) { 
+                   e.dataTransfer.setData('myimg', e.srcElement.outerHTML);
+                
+                }
+                function enddrag(e) {
+                    e.preventDefault();
+                    e.target.style.display = 'none';
+                   counter++;
+                   if(counter==allimages.length)
+                   {
+                       console.log("empty");
+                       myspan.style.display="block";
+                   }
+                }
+                function dropped(e) {
+                    
+                    e.preventDefault();
+                    left.innerHTML += e.dataTransfer.getData('myimg');
+                   
+                }
+                function enterdrag(e) {
+                    e.preventDefault();
+                }
+                function overdrag(e) {
+                    e.preventDefault();
+                }
+                function leavedrag(e) {
+                    e.preventDefault();
+                    
+                    
+                }
+               
+</script>        
+</head>
+<body>
+    <section id="outer">
+<section id="imag">
+    <span> empty</span>
+    <img class="iti" src="1.jpg">
+    <img class="iti" src="1.jpg">
+    <img class="iti" src="1.jpg">
+    <img class="iti" src="1.jpg">
+    <img class="iti" src="1.jpg">
+    <img class="iti" src="1.jpg">
+    <img class="iti" src="1.jpg">
+    
+</section>
+<br/>
+<section id="left">
+
+    </section>
+
+
+    </section>
+
+
+</body>
+</html>

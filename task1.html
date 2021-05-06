@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>map</title>
+    <link href="task1.css" rel="stylesheet" />
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB90FxtYG_ybAYXGkz0ybkmkboE2nEbezI"></script>
+    <!--<script src="task1.js"></script>-->
+    <script>
+        window.addEventListener('load', doitfunction);
+        function doitfunction() {
+            myBottom = document.getElementById('bottom');
+            myGeo = document.getElementById('Geo');
+            myInfo = document.getElementById('info');
+            myLat = document.getElementById('lat');
+            myLon = document.getElementById('lon');
+            myAccuracy = document.getElementById('accuracy');
+            myDate = document.getElementById('time');
+        }
+        function getmylocationfun() {
+            //check avaliability
+            if (navigator.geolocation) //it is exist
+            {
+                //get premession
+                navigator.geolocation.getCurrentPosition(getPosition, errorHandeler);
+            }
+            else {
+                myGeo.innerHTML = ' please update your browser and try again ';
+            }
+        }
+        function getPosition(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            accuracy = position.coords.accuracy;
+            date = new Date(position.timestamp);
+            //google maps
+            myLocation = new google.maps.LatLng(latitude, longitude);
+            mySpecs = { zoom: 17, center: myLocation };
+            var myImg = new Image();
+            myImg.src = new google.maps.Map(myGeo, mySpecs);
+            myGeo.appendChild(myImg);
+        }
+        function errorHandeler() {
+            myBottom.innerHTML = ` <p align='center' style='margin:150px auto; font:bold 30px tahoma'>
+                                        Sorry , we did not get your premession </p>`;
+        }
+        function details() {
+            myGeo.style.display = 'none';
+            myInfo.style.visibility = 'visible';
+            myLat.value = latitude;
+            myLon.value = longitude;
+            myAccuracy.value = accuracy;
+            myDate.value = date;
+
+
+        }
+
+
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div id='top'>
+            <div id='btn1'><input type='button' value='Show Geolocation' onclick='getmylocationfun();' /></div>
+            <div id='btn2'><input type='button' value='Details Information' onclick="details();" /></div>
+        </div>
+
+        <br />
+        <div id="bottom">
+            <div id='Geo'></div>
+            <div id='info' class='hidden'>
+                <label align='center'>Latitude [degree]</label>
+                <input type='text' id='lat'>
+                <label align='center'>Longitude [degree]</label>
+                <input type='text' id='lon'>
+                <label align='center'>Accuracy [m]</label>
+                <input type='text' id='accuracy'>
+                <label align='center'>TimeStamp [current Time and Date]</label>
+                <input type='text' id='time'>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
